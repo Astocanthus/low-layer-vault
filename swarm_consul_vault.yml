@@ -1,0 +1,80 @@
+version: "3.8"
+
+services:
+  consul:
+    image: hashicorp/consul:1.17
+    ports:
+      - "8500:8500"
+    volumes:
+      - /volume1/docker/secret/consul/config:/consul/config
+      - /volume1/docker/secret/consul/data:/consul/data
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      CONSUL_DATACENTER: Low-layer
+      CONSUL_DOMAIN: consul
+      CONSUL_NODE_NAME: synology-01-consul
+      CONSUL_ENCRYPT_KEY_FILE: /run/secrets/consul-encrypt-key
+      PUID: 1027
+      PGID: 100
+    command: sh /consul/config/start_consul.sh
+    networks:
+      - secret
+    secrets:
+      - consul-encrypt-key
+    healthcheck:
+      test: ["CMD", "consul", "members", "-http-addr=http://localhost:8500"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 20
+        window: 600s
+
+  vault:
+    image: hashicorp/vault:1.15
+    cap_add:
+      - IPC_LOCK
+    ports:
+      - "8200:8200"
+    volumes:
+      - /volume1/docker/secret/vault/config:/vault/config
+      - /volume1/docker/secret/vault/plugins:/vault/plugins
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      VAULT_PLUGIN_DIR: /vault/plugins
+      AWS_ACCESS_KEY_ID: 
+      AWS_SECRET_ACCESS_KEY: 
+      AWS_REGION: us-east-1
+      AWS_HOSTED_ZONE_ID: 
+      PUID: 1027
+      PGID: 100
+    command: vault server -config=/vault/config/vault.hcl
+    networks:
+      - secret
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 20
+        window: 600s
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8200/v1/sys/health?uninitcode=200&sealedcode=200"]
+      interval: 30s
+      timeout: 10s
+      retries: 10       
+      start_period: 120s
+
+secrets:
+  consul-encrypt-key:
+    external: true
+
+networks:
+  secret:
+    name: secret
+    external: true

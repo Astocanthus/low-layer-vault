@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  vault_agent:
+    image: hashicorp/vault:1.15
+    user: root
+    cap_add:
+      - IPC_LOCK
+      - SYS_CHROOT
+    volumes:
+      - /volume1/docker/secret/vault_agent/config:/vault/config
+      - /volume1/docker/secret/vault_agent/templates:/vault/templates
+      - /usr/syno/etc/certificate/_archive:/certs:rw
+      - /volume1/docker/blog/ssl:/codermug/ssl:rw
+      - /etc/localtime:/etc/localtime:ro
+      - /:/host:ro
+    secrets:
+      - vault-role-id
+      - vault-secret-id
+    command: sh -c "vault agent -config=/vault/config/agent.hcl"
+    networks:
+      - secret
+    deploy:
+      mode: global
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 20
+        window: 600s
+
+secrets:
+  vault-role-id:
+    external: true
+  vault-secret-id:
+    external: true
+
+networks:
+  secret:
+    name: secret
+    external: true

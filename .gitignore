@@ -1,0 +1,3 @@
+consul/data
+vault/plugins/*
+!vault/plugins/README.md
