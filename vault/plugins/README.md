@@ -63,7 +63,7 @@ apk add --no-cache cpulimit
 cpulimit -l 400 -p $(pidof vault) & vault server -config=/vault/config/vault.hcl
 ```
 
-## 🚀 Configuration
+## 🚀 Manual configuration example
 
 ### 1. Create ACME Account (Staging Environment)
 
@@ -95,6 +95,10 @@ vault write acme/config \
   aws_secret_access_key=<secret_key> \
   aws_region=eu-west-3
 ```
+
+## 🛠️ Terraform example
+For automated provisioning using Terraform, refer to
+[low-layer configuration project](https://github.com/Astocanthus/low-layer-platform/blob/main/terraform/vault/r_acme.tf)
 
 ## 🔐 AWS IAM Policy
 
