@@ -16,7 +16,7 @@ A comprehensive setup for deploying HashiCorp Vault, Consul, and Vault Agent on 
 
 ## 📋 Project Overview
 
-**Low-Layer Vault** is a base configuration for HashiCorp Vault and Consul, optimized for integration in Docker Swarm environments. This project aims to provide a secure and scalable infrastructure for secrets management and service discovery, specifically designed for Synology NAS systems with automated certificate management capabilities.
+Low-Layer Vault is a base configuration for HashiCorp Vault and Consul, optimized for integration in Docker Swarm environments. This project aims to provide a secure and scalable infrastructure for identity management, secrets management, certificate generation/renewal, oidc authentication, transit encryption, terraform state storage and service discovery — specifically designed for Synology NAS systems with automated certificate management capabilities.
 
 While this configuration is tailored for Synology environments, it can be easily adapted for deployment on any Docker Swarm cluster by adjusting paths, commands, and web server/reverse proxy configurations to match your specific infrastructure.
 
