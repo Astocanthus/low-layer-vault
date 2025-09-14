@@ -1,3 +1,12 @@
+# Consul runtime data directory
+# Contains Consul's operational data including raft logs, snapshots, and cluster state
+# This data is environment-specific and should not be versioned
 consul/data
+
+# Vault plugins directory
+# Exclude all plugin binaries as they are platform-specific and large files
 vault/plugins/*
+
+# Keep the README file in plugins directory
+# This file provides documentation about plugin installation and usage
 !vault/plugins/README.md
