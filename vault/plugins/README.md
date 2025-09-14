@@ -86,16 +86,6 @@ vault write acme/roles/staging-low-layer \
   allow_subdomains=true
 ```
 
-### 3. Configure Route53 Provider
-
-```bash
-vault write acme/config \
-  provider=route53 \
-  aws_access_key_id=<access_key> \
-  aws_secret_access_key=<secret_key> \
-  aws_region=eu-west-3
-```
-
 ## 🛠️ Terraform example
 For automated provisioning using Terraform, refer to
 [low-layer configuration project](https://github.com/Astocanthus/low-layer-platform/blob/main/terraform/vault/r_acme.tf)
