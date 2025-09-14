@@ -35,11 +35,11 @@ The project structure is as follows:
 
 ```
 ├── consul/
-│   └── config/              # Consul configuration files
-│   └── data/                # Consul persisted datas
+│   └── config/             # Consul configuration files
+│   └── data/               # Consul persisted datas
 ├── vault/
-│   └── config/              # Vault configuration files
-│   └── plugins/             # Vault plugins extension modules folder
+│   └── config/             # Vault configuration files
+│   └── plugins/            # Vault plugins extension modules folder
 ├── vault_agent/
 │   └── config/             # Vault Agent configuration files
 │   └── template/           # Vault Agent template generation files
